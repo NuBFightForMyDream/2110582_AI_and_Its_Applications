@@ -26,14 +26,14 @@ Docker is not required. The simulator installer downloads the official repositor
 
 ## What to try
 
-1. **Overview:** inspect the bundled public-workload/weather studies.
-2. **Analysis workspace:** run a SustainDC study in offline mode; inspect total energy, component energy, temperatures and the agent trace.
-3. **Simulation lab:** choose location, workload, time window, capacity, seed, setpoints and a study temperature threshold. Run actual upstream power/temperature calculations and analyze the saved result.
-4. **Data imports:** download the CSV template and import an observation window. Imported observations support baseline analysis; unmatched observations cannot establish alternative-setting savings.
-5. **Agents & skills:** inspect the three roles, five executable skill bindings and allowed tools.
-6. **Case history / Monitoring:** reopen saved cases, export evidence, record review intent and inspect guarded calls, latency and model usage.
+The dashboard is a single page:
 
-Four synthetic fixtures remain available: Steady load (reject the hotter lower-energy option), Peak load (keep baseline), Missing temperature (insufficient_data), and Unmatched experiment (not_supported).
+1. **Pick a situation** (a bundled SustainDC study or one you simulated).
+2. **Read the answer:** the recommended setpoint, the whole-data-center kWh saved versus the current setting, and the hottest rack inlet against the limit.
+3. **Check the chart:** total electricity per setpoint, split into IT equipment and cooling system. "All setpoints" lists the numbers.
+4. **Simulate a new situation** (location, day of year, hours) when the pinned simulator is installed.
+
+CSV imports, Gemini agent mode, case history, review records and monitoring remain available through the API (`/docs`) but are not shown in the dashboard. Four synthetic fixtures remain available to the API and tests: Steady load (reject the hotter lower-energy option), Peak load (keep baseline), Missing temperature (insufficient_data), and Unmatched experiment (not_supported).
 
 ## Evidence and limitations
 

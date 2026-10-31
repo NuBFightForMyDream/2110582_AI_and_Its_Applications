@@ -12,7 +12,7 @@
 | G3 | Independent evidence read, matched snapshots/fingerprints/boundaries, arithmetic, temperature and ranking checks | Site-approved policy, applicability validation and causal savings verification |
 | Imports | Bounded CSV schema/units declaration, timezone/gap checks, source hash, immutable catalog and raw local artifact | BMS adapter, tag mapping, verified sensor calibration and lifecycle administration |
 | Persistence | Owner-scoped SQLite; idempotent cases/reviews; implemented user-JWT Supabase case/review adapter and migration | Live remote persistence check, shared scenario/object storage, tamper-evident audit and disaster recovery |
-| UI | Eight pages, actual API client, charts, experiments, imports, skills, case exports, review records and monitoring | External account onboarding and multi-user deployment evaluation |
+| UI | One page: situation picker, recommended setpoint, whole-data-center energy chart and optional new simulation via the API client | External account onboarding and multi-user deployment evaluation |
 | Monitoring | Structured local events; owner-scoped recent cases, latency, usage and guard outcomes | Live equipment monitoring, alerts, external uptime checks, full retention/aggregation |
 | Deployment | Working loopback FastAPI + Streamlit launcher with private generated token | Public hosting, managed secrets/TLS, persistent volumes and hosted acceptance tests |
 

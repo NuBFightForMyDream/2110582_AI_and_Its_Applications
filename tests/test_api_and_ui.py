@@ -72,7 +72,7 @@ def test_rate_limit_is_enforced_before_more_analysis(client):
     assert client.post('/analysis',headers=HEADERS,json={'scenario_id':'steady'}).status_code==429
 
 
-def test_streamlit_pages_and_supported_blocked_cases(client,monkeypatch):
+def test_dashboard_recommends_a_setpoint_for_each_simulated_situation(client,monkeypatch):
     from streamlit.testing.v1 import AppTest
     def request(method,url,**kwargs):
         kwargs.pop('timeout',None)
@@ -81,19 +81,18 @@ def test_streamlit_pages_and_supported_blocked_cases(client,monkeypatch):
     path=Path(__file__).parents[1]/'cooling_advisor/dashboard.py'
     ui=AppTest.from_file(str(path),default_timeout=30).run()
     assert not ui.exception
-    ui.sidebar.radio[0].set_value('Analysis workspace').run()
-    assert not ui.exception
-    ui.selectbox[0].select('steady').run()
-    next(b for b in ui.button if b.label=='Run analysis').click().run()
-    assert not ui.exception
-    assert ui.session_state['result']['selected']['experiment_id']=='steady-19'
-    ui.selectbox[0].select('missing').run()
-    next(b for b in ui.button if b.label=='Run analysis').click().run()
-    assert not ui.exception
-    assert ui.session_state['result']['status']=='insufficient_data'
-    for page in ['Simulation lab','Data imports','Agents & skills','Case history','Monitoring','Settings']:
-        ui.sidebar.radio[0].set_value(page).run()
-        assert not ui.exception,page
+    situations=ui.selectbox[0].options
+    assert len(situations)>=2
+    assert not any('Steady load' in label for label in situations)  # Test fixtures stay out of the picker.
+    for scenario_id in [r['scenario_id'] for r in client.get('/catalog',headers=HEADERS).json() if r['source_kind']=='simulated']:
+        ui.selectbox[0].set_value(scenario_id).run()
+        assert not ui.exception,scenario_id
+        result=ui.session_state['results'][scenario_id]
+        assert result['status']=='completed'
+        assert any('RECOMMENDED SETPOINT' in m.value for m in ui.markdown)
+    calls=len(ui.session_state['results'])
+    ui.selectbox[0].set_value(scenario_id).run()
+    assert len(ui.session_state['results'])==calls  # Revisiting a situation does not create another case.
 
 
 def test_supabase_auth_uses_verified_user_and_approved_membership(monkeypatch):

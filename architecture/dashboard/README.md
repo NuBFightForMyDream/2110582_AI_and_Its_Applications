@@ -2,8 +2,8 @@
 
 [Architecture index](../../architecture.md)
 
-Streamlit and Plotly provide eight views: Overview, Analysis workspace, Simulation lab, Data imports, Agents & skills, Case history, Monitoring and Settings. All UI labels are English. FastAPI is called through `gateway.py` with bearer authentication.
+One Streamlit page answers one question: which cooling setpoint uses the least total data-center electricity (IT equipment + cooling system) without exceeding the rack-inlet limit. FastAPI is called through `gateway.py` with bearer authentication; the UI never runs the workflow itself.
 
-The analysis workspace distinguishes offline Python execution from Gemini tool calling and requests explicit consent before sending case summaries/tool evidence externally. Source banners distinguish upstream simulated studies, synthetic fixtures and source-unverified imports. Results show total/IT/cooling/component energy, matched options, maximum inlet, study threshold, trace and limitations. JSON/CSV export and human review records support inspection.
+The page lists simulated situations only (synthetic test fixtures are hidden). Selecting a situation runs one offline `/analysis` case per browser session and shows the recommended setpoint, kWh saved versus the current setting, the hottest inlet against the limit, an IT-versus-cooling explanation and a stacked energy chart per setpoint. An optional form runs a new SustainDC simulation with default workload, capacity and candidate setpoints.
 
-Case history reopens persisted cases. Monitoring reads the current owner's recent cases rather than global tenant data. Settings shows readiness booleans and setup instructions, not API key values. Supabase mode adds email/password sign-in; expired sessions require sign-in again. No physical control button or autonomous action approval flow exists.
+Supabase mode adds email/password sign-in. Imports, Gemini mode, case history, reviews and monitoring are API-only. The pre-simplification eight-page dashboard is preserved in `archive/dashboard-before-simplification-2026-10-31.tar.gz`. No physical control button exists.
