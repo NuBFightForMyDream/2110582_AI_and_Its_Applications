@@ -1,0 +1,3 @@
+# Cloud entrypoint; the local prototype is installed as a package.
+-c requirements.lock.txt
+-e .[integrations]
